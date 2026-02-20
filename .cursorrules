@@ -1,0 +1,29 @@
+# .cursorrules — Multi-Agent Build System v4.0
+
+> Build PantyHub using agent bundles in docs/agents/.
+> Read docs/CONTEXT.md first.
+
+## Execution (one agent per Composer run)
+
+1. Read `docs/agents/schema.md` and execute all phases (Schema Agent)
+1. Read `docs/agents/pages.md` and execute all phases (Pages Agent)
+2. Read `docs/agents/error-handling.md` and execute all phases (Error Handling Agent)
+2. Read `docs/agents/responsive.md` and execute all phases (Responsive Agent)
+2. Read `docs/agents/feature-payments.md` and execute all phases (Payments (Stripe) Agent)
+2. Read `docs/agents/feature-uploads.md` and execute all phases (File Uploads Agent)
+2. Read `docs/agents/feature-realtime.md` and execute all phases (Realtime Agent)
+2. Read `docs/agents/feature-search.md` and execute all phases (Full-Text Search Agent)
+2. Read `docs/agents/feature-notifications.md` and execute all phases (Notifications Agent)
+2. Read `docs/agents/feature-messaging.md` and execute all phases (Direct Messaging Agent)
+2. Read `docs/agents/feature-reviews.md` and execute all phases (Reviews & Ratings Agent)
+3. Read `docs/agents/security.md` and execute all phases (Security Agent)
+3. Read `docs/agents/devops.md` and execute all phases (DevOps Agent)
+4. Read `docs/agents/qa.md` and execute all phases (Quality Assurance Agent)
+4. Read `docs/agents/smoke-test.md` and execute all phases (Smoke Test Agent)
+5. Read `docs/agents/build-proof.md` and execute all phases (Build Proof Agent)
+5. Read `docs/agents/shipgate.md` and execute all phases (ShipGate Agent)
+
+After each agent: `npx tsc --noEmit && npm run build`
+
+## Full orchestration plan: docs/ORCHESTRATION.md
+## Agent bundles: docs/agents/*.md
