@@ -1,0 +1,179 @@
+{
+  "version": "2.0",
+  "lastUpdatedByAgent": null,
+  "lastUpdatedAtTier": 0,
+  "totalAgents": 17,
+  "conflictZones": [],
+  "agents": {
+    "pages": {
+      "status": "pending",
+      "tier": 1,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "schema": {
+      "status": "pending",
+      "tier": 1,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "error-handling": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "responsive": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "security": {
+      "status": "pending",
+      "tier": 3,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "devops": {
+      "status": "pending",
+      "tier": 3,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "qa": {
+      "status": "pending",
+      "tier": 4,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "smoke-test": {
+      "status": "pending",
+      "tier": 4,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "build-proof": {
+      "status": "pending",
+      "tier": 5,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "shipgate": {
+      "status": "pending",
+      "tier": 5,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-payments": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-uploads": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-realtime": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-search": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-notifications": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-messaging": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    },
+    "feature-reviews": {
+      "status": "pending",
+      "tier": 2,
+      "inputHashes": {},
+      "filesCreated": [],
+      "outputContractsPassed": false,
+      "decisions": [],
+      "warnings": [],
+      "completedAt": null
+    }
+  }
+}
