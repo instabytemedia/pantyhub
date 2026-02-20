@@ -1,0 +1,554 @@
+{
+  "version": "1.0",
+  "totalAgents": 17,
+  "parallelTiers": 3,
+  "estimatedMinutes": 98,
+  "tiers": [
+    {
+      "order": 1,
+      "name": "Skeleton (Schema + Pages)",
+      "agents": [
+        "schema",
+        "pages"
+      ],
+      "parallel": true,
+      "qualityGate": "npx tsc --noEmit && npm run build"
+    },
+    {
+      "order": 2,
+      "name": "Content (UX + 7 Features)",
+      "agents": [
+        "error-handling",
+        "responsive",
+        "feature-payments",
+        "feature-uploads",
+        "feature-realtime",
+        "feature-search",
+        "feature-notifications",
+        "feature-messaging",
+        "feature-reviews"
+      ],
+      "parallel": true,
+      "qualityGate": "npx tsc --noEmit && npm run build"
+    },
+    {
+      "order": 3,
+      "name": "Content (Production)",
+      "agents": [
+        "security",
+        "devops"
+      ],
+      "parallel": true,
+      "qualityGate": "npx tsc --noEmit && npm run build && echo 'Bundle check: verify first-load JS < 500KB'"
+    },
+    {
+      "order": 4,
+      "name": "Quality (Audit + Test)",
+      "agents": [
+        "qa",
+        "smoke-test"
+      ],
+      "parallel": false,
+      "qualityGate": "npx tsc --noEmit && npm run build && echo 'Bundle check: verify first-load JS < 500KB'"
+    },
+    {
+      "order": 5,
+      "name": "Quality (Proof + Ship)",
+      "agents": [
+        "build-proof",
+        "shipgate"
+      ],
+      "parallel": false,
+      "qualityGate": "npx tsc --noEmit && npm run build && echo 'Bundle check: verify first-load JS < 500KB'"
+    }
+  ],
+  "agents": {
+    "pages": {
+      "name": "Pages Agent",
+      "description": "Landing page, global pages (about, contact), legal pages (terms, privacy), dark mode toggle",
+      "dependsOn": [
+        "foundation"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/phases/06-landing-page.md",
+        "docs/phases/09-global-pages.md",
+        "docs/phases/10-legal-pages.md",
+        "docs/phases/11-dark-mode.md",
+        "docs/phases/11b-ux-flows.md"
+      ],
+      "inputs": [
+        "package.json",
+        "tailwind.config.ts",
+        "app/globals.css"
+      ],
+      "outputs": [
+        "app/page.tsx",
+        "app/(public)/about/page.tsx",
+        "app/(public)/terms/page.tsx"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "identity",
+        "design",
+        "copy",
+        "audience",
+        "business"
+      ],
+      "estimatedMinutes": 6
+    },
+    "schema": {
+      "name": "Schema Agent",
+      "description": "Database schema SQL, RLS policies, triggers and functions",
+      "dependsOn": [
+        "foundation"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/phases/28-database-schema.md",
+        "docs/phases/29-rls.md",
+        "docs/phases/29b-permissions.md",
+        "docs/phases/30-triggers.md"
+      ],
+      "inputs": [
+        "lib/supabase/client.ts",
+        "lib/supabase/server.ts"
+      ],
+      "outputs": [
+        "supabase/schema.sql"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "security",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "error-handling": {
+      "name": "Error Handling Agent",
+      "description": "Error boundaries, toast notifications, form validation UX",
+      "dependsOn": [
+        "schema",
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/phases/22-error-states.md",
+        "docs/phases/23-toast-notifications.md",
+        "docs/phases/24-form-ux.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx"
+      ],
+      "outputs": [
+        "components/error-boundary.tsx"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "design"
+      ],
+      "estimatedMinutes": 4
+    },
+    "responsive": {
+      "name": "Responsive Agent",
+      "description": "Loading skeletons, mobile responsive layout, accessibility, optimistic updates, keyboard shortcuts",
+      "dependsOn": [
+        "schema",
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/phases/25-loading-skeletons.md",
+        "docs/phases/26-mobile-responsive.md",
+        "docs/phases/27-accessibility.md",
+        "docs/phases/27b-optimistic-updates.md",
+        "docs/phases/27c-keyboard-shortcuts.md",
+        "docs/phases/27d-ui-previews.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx"
+      ],
+      "outputs": [
+        "components/loading-skeleton.tsx"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "design",
+        "audience"
+      ],
+      "estimatedMinutes": 4
+    },
+    "security": {
+      "name": "Security Agent",
+      "description": "Security headers, rate limiting, input sanitization, CSRF protection",
+      "dependsOn": [
+        "error-handling",
+        "responsive",
+        "feature-payments",
+        "feature-uploads",
+        "feature-realtime",
+        "feature-search",
+        "feature-notifications",
+        "feature-messaging",
+        "feature-reviews"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/phases/34-security.md",
+        "docs/phases/34b-rate-limiting.md",
+        "docs/phases/34c-input-sanitization.md",
+        "docs/phases/34d-security-hardening.md",
+        "docs/phases/34e-observability.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx",
+        "middleware.ts"
+      ],
+      "outputs": [],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "security",
+        "stack"
+      ],
+      "estimatedMinutes": 4
+    },
+    "devops": {
+      "name": "DevOps Agent",
+      "description": "SEO, sitemap, performance optimization, caching, developer guide, CI/CD, deployment",
+      "dependsOn": [
+        "error-handling",
+        "responsive",
+        "feature-payments",
+        "feature-uploads",
+        "feature-realtime",
+        "feature-search",
+        "feature-notifications",
+        "feature-messaging",
+        "feature-reviews"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/phases/35-seo.md",
+        "docs/phases/35b-sitemap.md",
+        "docs/phases/36-performance.md",
+        "docs/phases/36b-caching.md",
+        "docs/phases/36c-image-optimization.md",
+        "docs/phases/36d-advanced-performance.md",
+        "docs/phases/37-developer-guide.md",
+        "docs/phases/38-ci-cd.md",
+        "docs/phases/38b-deployment.md",
+        "docs/phases/38c-release-devops.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx",
+        "middleware.ts"
+      ],
+      "outputs": [
+        "app/sitemap.ts",
+        "app/robots.ts",
+        ".github/workflows/ci.yml",
+        "README.md"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "stack"
+      ],
+      "estimatedMinutes": 7
+    },
+    "qa": {
+      "name": "Quality Assurance Agent",
+      "description": "Full audit, fix rounds, final build, MVP loop, design polish, git init. Reviews all TODO.md items and BUILD_STATE warnings.",
+      "dependsOn": [
+        "security",
+        "devops"
+      ],
+      "canParallel": false,
+      "phases": [
+        "docs/phases/39-full-audit.md",
+        "docs/phases/39b-functional-audit.md",
+        "docs/phases/39c-code-quality-audit.md",
+        "docs/phases/39d-production-check.md",
+        "docs/phases/39e-fix-round.md",
+        "docs/phases/39f-e2e-testing.md",
+        "docs/phases/40-final-build.md",
+        "docs/phases/40b-build-report.md",
+        "docs/phases/41-gap-closer.md",
+        "docs/phases/42-mvp-loop.md",
+        "docs/phases/42b-design-polish.md",
+        "docs/phases/43-premium-ui-loop.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx",
+        "middleware.ts",
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "docs/BUILD_REPORT.md"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "design",
+        "stack"
+      ],
+      "estimatedMinutes": 15
+    },
+    "smoke-test": {
+      "name": "Smoke Test Agent",
+      "description": "Starts dev server, fetches all routes, verifies HTTP 200, checks for console errors, generates visual smoke test report.",
+      "dependsOn": [
+        "qa"
+      ],
+      "canParallel": false,
+      "phases": [
+        "docs/phases/44-smoke-test.md",
+        "docs/phases/45-git-init.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx",
+        "middleware.ts"
+      ],
+      "outputs": [
+        "docs/SMOKE_TEST_REPORT.md"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "screens",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "build-proof": {
+      "name": "Build Proof Agent",
+      "description": "Playwright-based proof layer, automated repair loop (max 4 cycles), evidence collection with screenshots and reports.",
+      "dependsOn": [
+        "smoke-test"
+      ],
+      "canParallel": false,
+      "phases": [
+        "docs/phases/46-build-proof.md",
+        "docs/phases/47-repair-loop.md",
+        "docs/phases/48-proof-pack.md"
+      ],
+      "inputs": [
+        "app/(app)/*/page.tsx",
+        "middleware.ts",
+        "docs/SMOKE_TEST_REPORT.md"
+      ],
+      "outputs": [
+        "docs/PROOF_PACK.md"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "design",
+        "stack"
+      ],
+      "estimatedMinutes": 10
+    },
+    "shipgate": {
+      "name": "ShipGate Agent",
+      "description": "Final go/no-go verification gate. Checks all quality scores, proof results, and produces final ship decision.",
+      "dependsOn": [
+        "build-proof"
+      ],
+      "canParallel": false,
+      "phases": [
+        "docs/phases/49-shipgate.md",
+        "docs/phases/49b-project-summary.md"
+      ],
+      "inputs": [
+        "docs/PROOF_PACK.md",
+        "docs/BUILD_REPORT.md"
+      ],
+      "outputs": [
+        "docs/SHIPGATE_VERDICT.md"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "design",
+        "stack"
+      ],
+      "estimatedMinutes": 3
+    },
+    "feature-payments": {
+      "name": "Payments (Stripe) Agent",
+      "description": "Integrates Payments (Stripe) feature: docs/features/payments.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/payments.md"
+      ],
+      "inputs": [
+        "middleware.ts",
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/payments.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "feature-uploads": {
+      "name": "File Uploads Agent",
+      "description": "Integrates File Uploads feature: docs/features/uploads.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/uploads.md"
+      ],
+      "inputs": [
+        "middleware.ts",
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/uploads.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "feature-realtime": {
+      "name": "Realtime Agent",
+      "description": "Integrates Realtime feature: docs/features/realtime.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/realtime.md"
+      ],
+      "inputs": [
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/realtime.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "feature-search": {
+      "name": "Full-Text Search Agent",
+      "description": "Integrates Full-Text Search feature: docs/features/search.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/search.md"
+      ],
+      "inputs": [
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/search.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "feature-notifications": {
+      "name": "Notifications Agent",
+      "description": "Integrates Notifications feature: docs/features/notifications.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/notifications.md"
+      ],
+      "inputs": [
+        "middleware.ts",
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/notifications.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "feature-messaging": {
+      "name": "Direct Messaging Agent",
+      "description": "Integrates Direct Messaging feature: docs/features/messaging.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/messaging.md"
+      ],
+      "inputs": [
+        "middleware.ts",
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/messaging.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    },
+    "feature-reviews": {
+      "name": "Reviews & Ratings Agent",
+      "description": "Integrates Reviews & Ratings feature: docs/features/reviews.md",
+      "dependsOn": [
+        "pages"
+      ],
+      "canParallel": true,
+      "phases": [
+        "docs/features/reviews.md"
+      ],
+      "inputs": [
+        "middleware.ts",
+        "supabase/schema.sql"
+      ],
+      "outputs": [
+        "lib/reviews.ts"
+      ],
+      "qualityGate": "npx tsc --noEmit && npm run build",
+      "contextSections": [
+        "entities",
+        "features",
+        "stack"
+      ],
+      "estimatedMinutes": 5
+    }
+  }
+}
