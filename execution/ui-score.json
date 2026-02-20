@@ -1,0 +1,19 @@
+{
+  "typography_consistency": 85,
+  "spacing_grid_consistency": 94,
+  "component_reuse_score": 89,
+  "layout_density_score": 100,
+  "responsive_coverage_score": 100,
+  "accessibility_score": 100,
+  "design_contract_adherence": 100,
+  "ui_score_total": 95,
+  "ui_score_breakdown": {
+    "typography": 85,
+    "spacing": 94,
+    "components": 89,
+    "density": 100,
+    "responsive": 100,
+    "accessibility": 100,
+    "design_contract": 100
+  }
+}
